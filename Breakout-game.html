@@ -18,7 +18,9 @@
             x:0,
             y:0,
             radius:5,
-            color: 'blue'
+            color: 'blue',
+            spdX: -5,
+            spdY: -5
         }
 
         var base = {
@@ -51,7 +53,7 @@
             }
         }
 
-        
+
         drawBall = function() {
             ctx.save();
             ctx.fillStyle = ball.color;
@@ -72,7 +74,7 @@
             if(base.pressingLeft) {
                 base.x = base.x -5;
             }
-            else if(pressingRight) {
+            else if(base.pressingRight) {
                 base.x = base.x + 5;
             }
             if(base.x<0){
@@ -82,12 +84,31 @@
                 base.x = width - base.width;
             }
         }
+
+        updateBallPosition = function() {
+            ball.x += ball.spdX;
+            ball.y += ball.spdY;
+            if(ball.x> width || ball.x<0){
+                ball.spdX = -ball.spdX;
+            }
+            else if(ball.y>height || ball.y<0){
+                ball.spdY = -ball.spdY;
+            }
+        }
+
+        update = function() {
+            ctx.clearRect(0,0,width,height);
+            updateBasePosition();
+            updateBallPosition();
+            drawBall();
+            drawBase();
+        }
+
         startGame = function() {
             base.x = 150;
             ball.x = base.x +100;
             ball.y = base.y -100;
-            drawBall();
-            drawBase();
+            setInterval(update,20);
         }
 
         startGame();
