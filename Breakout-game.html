@@ -11,7 +11,7 @@
 
         var ctx = document.getElementById('ctx').getContext('2d')
         ctx.font = '20px Calibri';
-        var numOfTiles, tileList, score, intervalVar, running=false;
+        var numOfTiles, tileList, score, hitCount, intervalVar, running=false;
         const width = 500;
         const height = 500;
         ctx.fillText("Click to start the game",150,250);
@@ -123,12 +123,36 @@
             ball.x += ball.spdX;
             ball.y += ball.spdY;
             if(ball.x> width || ball.x<0){
+                hitCount++;
+                if(hitCount%7 === 0) {
+                    if(ball.spdX < 0){
+                        ball.spdX = -(Math.abs(ball.spdX)+1);
+                    }
+                    else
+                        ball.spdX += 1;
+                }
                 ball.spdX = -ball.spdX;
             }
             if(ball.y<0){
+                hitCount++;
                 ball.spdY = -ball.spdY;
+                if(hitCount% 7=== 0) {
+                    if(ball.spdY < 0){
+                        ball.spdY = -(Math.abs(ball.spdY)+1);
+                    }
+                    else
+                        ball.spdY += 1;
+                }
             }
             if(ball.y>height) {
+                hitCount++;
+                if(hitCount%7 === 0) {
+                    if(ball.spdY < 0){
+                        ball.spdY = -(Math.abs(ball.spdY)+1);
+                    }
+                    else
+                        ball.spdY += 1;
+                }
                 ball.spdY = -ball.spdY;
                 base.lives--;
             }
@@ -178,6 +202,7 @@
             running = true;
             base.lives = 3;
             tileList = [];
+            hitCount = 0;
             for(let i =1; i<=6;i++) {
                 tileX = 5;
                 for(let j=1;j<=11;j++){
