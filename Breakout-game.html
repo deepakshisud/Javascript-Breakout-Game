@@ -40,6 +40,7 @@
         var numOfTiles, tileList, score, hitCount, intervalVar, running=false;
         const width = 500;
         const height = 500;
+        ctx.fillStyle = "#FFFAFA";
         ctx.fillText("Click to start the game",150,250);
 
         var ball = {
@@ -188,6 +189,7 @@
         isGameOver = function() {
             if(base.lives < 0 || score === 330){
                 clearInterval(intervalVar);
+                ctx.fillStyle = "#FFFAFA";
                 ctx.fillText("Game Over! Click to restart", 150, 250);
             }
         }
@@ -208,8 +210,9 @@
                     score+=5;
                 }
             }
-
+            ctx.fillStyle = "#FFFAFA";
             ctx.fillText("Score: "+score,5,490);
+            ctx.fillStyle = "#FFFAFA";
             ctx.fillText("Lives: "+base.lives,430,490);
             isGameOver();
             updateBasePosition();
