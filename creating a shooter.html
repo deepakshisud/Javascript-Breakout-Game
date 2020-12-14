@@ -10,7 +10,7 @@
     <script>
 
         let ctx = document.getElementById('ctx').getContext('2d');
-        var bulletList;
+        var bulletList, timer;
         var shooter = {
             x: 250,
             y: 400,
@@ -36,6 +36,32 @@
             ctx.fillRect(b.x,b.y,bullet.width,bullet.height);
             ctx.restore();
         }
+
+        updateBullets = function() {
+            for(key in bulletList) {
+                bulletList[key].y -= 10;
+            }
+        }
+
+        update = function() {
+            ctx.clearRect(0,0,500,500);
+            if(timer%200 == 0) {
+                //Generating the bullet
+                var bX = Math.random()*30+shooter.x;
+                var bY = shooter.y;
+                bulletList.push({x:bX,y:bY});
+            }
+            timer+= 10;
+            drawShooter();
+            bulletList.forEach(drawBullet);
+            updateBullets();
+        }
+        startGame = function() {
+            bulletList = [];
+            timer = 0;
+            setInterval(update,40);
+        }
+        startGame();
 
     </script>
 </body>
