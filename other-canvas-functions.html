@@ -6,35 +6,88 @@
     <title>Canvas Functions</title>
 </head>
 <body>
-    <canvas height="500", width="500" style="border: 2px solid black;" id="ctx"></canvas>
+    <canvas height="600", width="800" style="border: 2px solid black;" id="ctx"></canvas>
     <script>
 
 
         let ctx = document.getElementById('ctx').getContext('2d');
-
+        let width = 800;
+        let height = 600;
         let circle1 = {
             x:250,
             y:300,
             radius:20
         };
 
-        let circle2 = {
+        let circleno2 = {
             x:550,
             y:300,
             radius:20
         }
 
         let eyeball1 = {
-            x:260,
-            y:310,
+            x:250,
+            y:300,
             radius:10
         }
 
-        let eyeball1 = {
-            x:560,
-            y:310,
+        let eyeball2 = {
+            x:550,
+            y:300,
             radius:10
         }
+
+        drawEyeball = function(eyeball) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(eyeball.x,eyeball.y,eyeball.radius,0,2*Math.PI);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        drawCircle = function(circle) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(circle.x,circle.y,circle.radius,0,2*Math.PI);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+
+        document.getElementById('ctx').onmousemove = function(mouse) {
+            var mouseX = mouse.clientX - document.getElementById('ctx').getBoundingClientRect().left;
+            var mouseY = mouse.clientY - document.getElementById('ctx').getBoundingClientRect().top;
+            if(mouseX<=eyeball1.x) {
+                eyeball1.x = 240;
+                eyeball2.x = 540;
+            }
+            if(mouseX >= eyeball2.x) {
+                eyeball2.x = 560;
+                eyeball1.x = 260;
+            }
+            if(mouseY <= eyeball1.y) {
+                eyeball1.y = 290;
+                eyeball2.y = 290;
+            }
+            if(mouseY > eyeball1.y) {
+                eyeball1.y = 310;
+                eyeball2.y = 310;
+            }
+            if(mouseX > eyeball1.x && mouseX < eyeball2.x){
+                eyeball1.x = 260;
+                eyeball2.x = 540;
+            }
+        }
+
+        update = function() {
+            ctx.clearRect(0,0,width,height);
+            drawCircle(circle1);
+            drawEyeball(eyeball1);
+            drawCircle(circleno2);
+            drawEyeball(eyeball2);
+        }
+
+        setInterval(update,20);
     </script>
 </body>
 </html>
